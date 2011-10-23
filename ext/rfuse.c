@@ -47,15 +47,15 @@ static VALUE fuse_object;
 static int unsafe_return_error(VALUE *args)
 {
  
-  if (rb_respond_to(ruby_errinfo,rb_intern("errno"))) {
+  if (rb_respond_to(ruby_errinfo(),rb_intern("errno"))) {
     //We expect these and they get passed on the fuse so be quiet...
-    return rb_funcall(ruby_errinfo,rb_intern("errno"),0);
+    return rb_funcall(ruby_errinfo(),rb_intern("errno"),0);
   } else {
     VALUE info;
-    info = rb_inspect(ruby_errinfo);
+    info = rb_inspect(ruby_errinfo());
     printf ("ERROR: Exception %s not an Errno:: !respond_to?(:errno) \n",STR2CSTR(info)); 
     //We need the ruby_errinfo backtrace not fuse.loop ... rb_backtrace();
-    VALUE bt_ary = rb_funcall(ruby_errinfo, rb_intern("backtrace"),0);
+    VALUE bt_ary = rb_funcall(ruby_errinfo(), rb_intern("backtrace"),0);
     int c;
     for (c=0;c<RARRAY_LEN(bt_ary);c++) {
       printf("%s\n",RSTRING_PTR(RARRAY_PTR(bt_ary)[c]));
