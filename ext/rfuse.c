@@ -57,8 +57,8 @@ static int unsafe_return_error(VALUE *args)
     //We need the ruby_errinfo backtrace not fuse.loop ... rb_backtrace();
     VALUE bt_ary = rb_funcall(ruby_errinfo, rb_intern("backtrace"),0);
     int c;
-    for (c=0;c<RARRAY(bt_ary)->len;c++) {
-      printf("%s\n",RSTRING(RARRAY(bt_ary)->ptr[c])->ptr);
+    for (c=0;c<RARRAY_LEN(bt_ary);c++) {
+      printf("%s\n",RSTRING_PTR(RARRAY_PTR(bt_ary)[c]));
     }
     return Qnil;
   }
